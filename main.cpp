@@ -23,7 +23,7 @@ private:
     Node* head;
     Node* tail;
     // for delete randomposition
-    int size=0;
+    int size;
 
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
@@ -33,14 +33,14 @@ public:
             cout << "List is empty." << endl;
             return;
         }
-    
+
         if (pos == 1) {
             pop_front();
             return;
         }
-    
+
         Node* temp = head;
-    
+
         for (int i = 1; i < pos; i++){
             if (!temp) {
                 cout << "Position doesn't exist." << endl;
@@ -53,12 +53,12 @@ public:
             cout << "Position doesn't exist." << endl;
             return;
         }
-    
+
         if (!temp->next) {
             pop_back();
             return;
         }
-    
+
         Node* tempPrev = temp->prev;
         tempPrev->next = temp->next;
         temp->next->prev = tempPrev;
@@ -78,7 +78,7 @@ public:
         }
         size++;
     }
-    
+
     void push_front(string v) {
         Node* newNode = new Node(v);
         if (!head)
@@ -90,7 +90,7 @@ public:
         }
         size++;
     }
-    
+
     void pop_front() {
 
         if (!head) {
@@ -148,6 +148,11 @@ public:
         }
         cout << endl;
     }
+    // add a get size for delete randomposition
+    int get_size() const {
+        return size;  // Return the current size of the list
+    }
+
 };
 
 int main() {
@@ -162,7 +167,7 @@ int main() {
     int prob;
     // for random guy in the mid of the line leave
     int randomposition;
-    
+
 
     while (nameFile >> name) {
         names.push_back(name);
@@ -180,20 +185,20 @@ int main() {
         cout << "   " << customername << " join the line. " << endl ;
     }
     line.print();
-    
+
 
     // simulate for 20 miniutes
     for (int minute = 1; minute <= 20; ++minute) {
         cout << "Time step #" << minute << ":" << endl ;
 
-       
         prob = rand() % 100 + 1;  // returns random number 1-100
         // A customer being helped at the beginning of the line and ordering their coffee is 40%
         if (prob <= 40) {
             // delete head 
+            
             line.pop_front();
         }
-        
+
         prob = rand() % 100 + 1;  // returns random number 1-100
         // A new customer joining the end of the line is 60%
         if (prob <= 60) {
@@ -207,34 +212,32 @@ int main() {
         // The customer at the end of the line deciding they don't want to wait and leaving is 20%
         if (prob <= 20) {
             // delete tail 
+            cout << name[line.get_size()] << " left the line." << endl ;
             line.pop_back();
         }
 
         prob = rand() % 100 + 1;  // returns random number 1-100
         // Any particular customer can decide they don't want to wait and leave the line: 10%
         if (prob <= 10) {
-            // 
+            // random people leave
             randomposition = (rand() % line.get_size()) + 1;
+            cout << name[randomposition] << " left the line." << endl ;
             line.delete_pos(randomposition);
         }
 
         prob = rand() % 100 + 1;  // returns random number 1-100
         // A VIP (very important person) customer with a Coffee House Gold Card gets to skip the line and go straight to the counter and order: 10%
         if (prob <= 10) {
-            // 
+            // put vip in the front of the line
             vipname = names[rand() % 99 ];
             cout << vipname << " (VIP) joins the front of the line." << endl ;
             line.push_back(vipname);
         }
 
-
+        // output the line result
+        cout << "Resulting line:\n";
+        line.print();
 
     }
-
-    
-
-
-
-
     return 0;
 }
