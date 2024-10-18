@@ -218,6 +218,18 @@ int main() {
         names.push_back(name);
     }
     nameFile.close();
+
+    // make a line
+    DoublyLinkedList line;
+
+    // when stor open 5 customers get in line
+    cout << "Store opens:\n";
+    for (int i = 0; i < 5; ++i) {
+        string customername = names[rand() % 100 + 1 ];
+        line.push_back(customername);
+        cout << customername << " join the line. " << endl ;
+    }
+    line.print();
     
     return 0;
 }
