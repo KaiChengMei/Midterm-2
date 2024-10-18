@@ -184,7 +184,8 @@ int main() {
     // load name from names.txt
     vector<string> names;
     ifstream nameFile("names.txt");
-    string name, customername;
+    // creat customername and vipname for later
+    string name, customername, vipname;
     // for random events
     int prob;
     while (nameFile >> name) {
@@ -207,30 +208,46 @@ int main() {
 
     // simulate for 20 miniutes
     for (int minute = 1; minute <= 20; ++minute) {
-        cout << "Time step #" << minute << ":\n";
+        cout << "Time step #" << minute << ":" << endl ;
 
        
         prob = rand() % 100 + 1;  // returns random number 1-100
-        // 40%
+        // A customer being helped at the beginning of the line and ordering their coffee is 40%
         if (prob <= 40) {
-            // perform Event A
+            // delete head 
             line.pop_front();
         }
         
         prob = rand() % 100 + 1;  // returns random number 1-100
-        // 60%
+        // A new customer joining the end of the line is 60%
         if (prob <= 60) {
-            // perform Event B
+            // find random name and put it in the end of the line
             customername = names[rand() % 99 ];
-            cout << customername << " joins the line.\n";
+            cout << customername << " joins the line." << endl ;
             line.push_back(customername);
         }
 
         prob = rand() % 100 + 1;  // returns random number 1-100
-        // 20%
+        // The customer at the end of the line deciding they don't want to wait and leaving is 20%
         if (prob <= 20) {
-            // perform Event C
+            // delete tail 
+            line.pop_back();
+        }
+
+        prob = rand() % 100 + 1;  // returns random number 1-100
+        // Any particular customer can decide they don't want to wait and leave the line: 10%
+        if (prob <= 10) {
+            // 
             
+        }
+
+        prob = rand() % 100 + 1;  // returns random number 1-100
+        // A VIP (very important person) customer with a Coffee House Gold Card gets to skip the line and go straight to the counter and order: 10%
+        if (prob <= 10) {
+            // 
+            vipname = names[rand() % 99 ];
+            cout << vipname << " (VIP) joins the front of the line." << endl ;
+            line.push_back(vipname);
         }
 
 
