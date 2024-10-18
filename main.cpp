@@ -22,32 +22,11 @@ private:
 
     Node* head;
     Node* tail;
+    // for delete randomposition
+    int size=0;
 
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
-
-    void delete_val(string value) {
-        if (!head) return;
-
-        Node* temp = head;
-        
-        while (temp && temp->data != value)
-            temp = temp->next;
-
-        if (!temp) return; 
-
-        if (temp->prev)
-            temp->prev->next = temp->next;
-        else
-            head = temp->next; 
-
-        if (temp->next)
-            temp->next->prev = temp->prev;
-        else
-            tail = temp->prev; 
-
-        delete temp;
-    }
 
     void delete_pos(int pos) {
         if (!head) {
@@ -84,6 +63,8 @@ public:
         tempPrev->next = temp->next;
         temp->next->prev = tempPrev;
         delete temp;
+
+        size--;
     }
 
     void push_back(string v) {
@@ -95,6 +76,7 @@ public:
             newNode->prev = tail;
             tail = newNode;
         }
+        size++;
     }
     
     void push_front(string v) {
@@ -106,6 +88,7 @@ public:
             head->prev = newNode;
             head = newNode;
         }
+        size++;
     }
     
     void pop_front() {
@@ -126,6 +109,7 @@ public:
         delete temp;
         // output 1st guy is served
         cout << temp->data << " is served" << endl ;
+        size--;
     }
 
     void pop_back() {
@@ -142,6 +126,7 @@ public:
         else
             head = tail = nullptr;
         delete temp;
+        size--;
     }
 
     ~DoublyLinkedList() {
@@ -163,19 +148,6 @@ public:
         }
         cout << endl;
     }
-
-    void print_reverse() {
-        Node* current = tail;
-        if (!current) { 
-            cout << "List is empty." << endl;
-            return;
-        }
-        while (current) {
-            cout << current->data << " ";
-            current = current->prev;
-        }
-        cout << endl;
-    }
 };
 
 int main() {
@@ -188,6 +160,10 @@ int main() {
     string name, customername, vipname;
     // for random events
     int prob;
+    // for random guy in the mid of the line leave
+    int randomposition;
+    
+
     while (nameFile >> name) {
         names.push_back(name);
     }
@@ -238,7 +214,8 @@ int main() {
         // Any particular customer can decide they don't want to wait and leave the line: 10%
         if (prob <= 10) {
             // 
-            
+            randomposition = (rand() % line.get_size()) + 1;
+            line.delete_pos(randomposition);
         }
 
         prob = rand() % 100 + 1;  // returns random number 1-100
