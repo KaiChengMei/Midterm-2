@@ -124,6 +124,8 @@ public:
         else
             head = tail = nullptr;
         delete temp;
+        // output 1st guy is served
+        cout << temp->data << " is served" << endl ;
     }
 
     void pop_back() {
@@ -182,7 +184,9 @@ int main() {
     // load name from names.txt
     vector<string> names;
     ifstream nameFile("names.txt");
-    string name;
+    string name, customername;
+    // for random events
+    int prob;
     while (nameFile >> name) {
         names.push_back(name);
     }
@@ -194,7 +198,7 @@ int main() {
     // when stor open 5 customers get in line
     cout << "Store opens:\n";
     for (int i = 0; i < 5; ++i) {
-        string customername = names[rand() % 100 + 1 ];
+        customername = names[rand() % 99];
         line.push_back(customername);
         cout << "   " << customername << " join the line. " << endl ;
     }
@@ -205,7 +209,35 @@ int main() {
     for (int minute = 1; minute <= 20; ++minute) {
         cout << "Time step #" << minute << ":\n";
 
+       
+        prob = rand() % 100 + 1;  // returns random number 1-100
+        // 40%
+        if (prob <= 40) {
+            // perform Event A
+            line.pop_front();
+        }
+        
+        prob = rand() % 100 + 1;  // returns random number 1-100
+        // 60%
+        if (prob <= 60) {
+            // perform Event B
+            customername = names[rand() % 99 ];
+            cout << customername << " joins the line.\n";
+            line.push_back(customername);
+        }
 
+        prob = rand() % 100 + 1;  // returns random number 1-100
+        // 20%
+        if (prob <= 20) {
+            // perform Event C
+            
+        }
+
+
+
+    }
+
+    
 
 
 
